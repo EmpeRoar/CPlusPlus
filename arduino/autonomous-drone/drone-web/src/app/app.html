@@ -1,0 +1,83 @@
+﻿<main class="drone-shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Autonomous Drone System</p>
+      <h1>Flight Controller</h1>
+    </div>
+    <button class="emergency" type="button" (click)="triggerEmergencyStop()" [disabled]="isBusy">
+      Emergency Stop
+    </button>
+  </header>
+
+  <section class="status-grid">
+    <article class="panel status-panel">
+      <div class="panel-header">
+        <span class="tag">System</span>
+        <span class="status-dot" [class.online]="status?.connected ?? false"></span>
+      </div>
+      <h2>{{ status?.state ?? 'Offline' }}</h2>
+      <ul>
+        <li>Armed: {{ status?.armed ? 'Yes' : 'No' }}</li>
+        <li>Connected: {{ status?.connected ? 'Online' : 'Offline' }}</li>
+        <li>Last command: {{ status?.lastCommand ?? 'none' }}</li>
+      </ul>
+    </article>
+
+    <article class="panel telemetry-panel">
+      <div class="panel-header">
+        <span class="tag">Telemetry</span>
+        <span class="chip" [class.low]="(telemetry?.batteryPercent ?? 0) < 30">
+          {{ telemetry?.batteryPercent ?? 0 | number: '1.0-0' }}%
+        </span>
+      </div>
+      <h2>{{ telemetry?.batteryPercent ?? 0 | number: '1.0-0' }}% Battery</h2>
+      <div class="battery-bar">
+        <span [style.width.%]="telemetry?.batteryPercent ?? 0"></span>
+      </div>
+    </article>
+  </section>
+
+  <section class="control-grid">
+    <article class="panel controls-panel">
+      <div class="panel-header">
+        <span class="tag">Motion Controls</span>
+      </div>
+
+      <div class="command-grid">
+        <button *ngFor="let command of commandDefinitions" type="button" (click)="executeCommand(command.key)" [disabled]="isBusy">
+          <span>{{ command.label }}</span>
+          <small>{{ command.description }}</small>
+        </button>
+      </div>
+    </article>
+
+    <aside class="panel side-panel">
+      <div class="panel-header">
+        <span class="tag">Command State</span>
+      </div>
+
+      <p class="message" [class.error]="lastError">{{ lastError || lastMessage }}</p>
+
+      <div class="state-list">
+        <div><strong>Mode:</strong> {{ status?.state ?? 'Unknown' }}</div>
+        <div><strong>Safety:</strong> {{ status?.emergencyStopActive ? 'Stop active' : 'Nominal' }}</div>
+        <div><strong>Connectivity:</strong> {{ status?.connected ? 'Ready' : 'Disconnected' }}</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="panel history-panel">
+    <div class="panel-header">
+      <span class="tag">Command Log</span>
+    </div>
+
+    <ul class="history-list">
+      <li *ngIf="commandHistory.length === 0">No commands sent yet.</li>
+      <li *ngFor="let item of commandHistory | slice: 0:8">
+        <span>{{ item.command }}</span>
+        <span>{{ item.status }}</span>
+        <small>{{ item.message }}</small>
+      </li>
+    </ul>
+  </section>
+</main>
