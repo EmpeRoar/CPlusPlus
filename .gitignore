@@ -1,0 +1,68 @@
+# Build artifacts
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.a
+*.lib
+*.lo
+*.la
+*.lai
+*.class
+*.jar
+
+# Compiler-generated files
+*.ilk
+*.pdb
+*.idb
+*.pch
+*.ipch
+*.aps
+*.ncb
+*.sdf
+*.cache
+*.tlog
+*.obj
+*.pch
+*.ipdb
+*.iobj
+*.exp
+*.lib
+
+# IDE/editor files
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# Local build folders
+build/
+bin/
+obj/
+out/
+debug/
+release/
+
+# CMake / Make generated files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
+compile_commands.json
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# OS-specific
+.DS_Store
+Thumbs.db
